@@ -4,6 +4,8 @@ class AdController {
   async index (req, res) {
     const filters = {}
 
+    filters.purchasedBy = null
+
     if (req.query.price_min || req.query.price_max) {
       filters.price = {}
 
@@ -43,6 +45,14 @@ class AdController {
   }
 
   async update (req, res) {
+    const ad = await Ad.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    })
+
+    return res.json(ad)
+  }
+
+  async sell (req, res) {
     const ad = await Ad.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     })
